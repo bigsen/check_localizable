@@ -1,3 +1,77 @@
+![](https://upload-images.jianshu.io/upload_images/790890-8bef563f8f500b28.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+## 目录
+* 背景
+* 如何详细定位多语言错误信息
+* 全自动定位多语言错误信息
+
+---
+
+### 一、背景
+* iOS 多语言文件，是APP在需要做国际化的时候用到的一种文件，例如：**`Localzable.strings`** 文件。
+
+* 做国际化的APP肯定有遇到多语言文件中，字符串少一个分号，多一个引号等情况，这个时候Xcode就会出现编译错误，但是Xcode遇到这种编译错误 是不会报出来具体的行数的，例如：
+* ![](https://upload-images.jianshu.io/upload_images/790890-b9a8ac4b915008fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+* 如果APP中的多语言文件非常多，那么由于Xcode并不会报出具体的行数，那么在查找错误的时候就会非常费事，非常耗费时间和精力去定位到具体的哪一行多语言文件错误了。
+
+* 本篇文章主要说明如何 **`利用 plutil 命令 去定位多语言错误`** 和 **`自动定定位多语言文件格式错误的脚本介绍`**。
+
+#### 二、如何详细定位多语言错误信息
+* 主要利用到了 plutil 命令
+##### （1）plutil 命令 介绍
+
+* plutil 命令 是 Mac OS 自带的一个命令。
+* 利用 plutil 可校验 plist，多语言文件 是否有错误。可进行操作 plist 文件，可进行格式转换等功能。
+* 本篇文章主要利用 plutil 语法检测的作用，更多详细用法，例如参考：https://blog.csdn.net/cneducation/article/details/54729106
+##### （2）plutil 命令 使用
+* 帮助信息：
+* ![](https://upload-images.jianshu.io/upload_images/790890-73e779e3254b7942.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+* 例如 检测多语言文件：plutil 后面跟文件名即可。
+* ![](https://upload-images.jianshu.io/upload_images/790890-1d5c068874eb7b7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+* 从上图可看到，如果多语言文件有误，通过 plutil 是可以定位具体错误，行数 等信息的。
+
+* 但是可以体会到，这样还是会有一些缺点，不方便，你需要手动去指定所有多语言文件，去检测。下面来说一下，如何全自动定位多语言文件错误信息。
+
+---
+
+ #### 三、全自动定位多语言错误信息
+* ![](https://upload-images.jianshu.io/upload_images/790890-637b7a6cd0d62291.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+#### 使用方法：
+* ![](https://upload-images.jianshu.io/upload_images/790890-5e72368a95f175e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+（1）放在项目中，直接执行python脚本。
+（2）脚本支持参数，第一个参数为搜索路径，第二个参数为输出日志路径（当有参数时，非必传）。
+（3）参数不传，默认当前脚本执行路径。
+
+#### 示例：
+* 无参数，默认目录为脚本当前执行目录
+```
+python check_localizable.py
+```
+
+* 指定搜索多语言路径
+```
+python check_localizable.py 搜索路径
+python check_localizable.py /Users/sen/Desktop/项目
+```
+
+* 指定搜索路径 和 报告生成路径
+```
+python check_localizable.py 搜索路径 日志输出路径
+python check_localizable.py /Users/sen/Desktop/项目 /Users/sen/Desktop/duoyuy
+```
+
+#### 演示：
+* 模拟多语言为错误格式 ----> 运行脚本校验多语言 -----> 生成报告 ----> 修复多语言格式 
+* ![](https://upload-images.jianshu.io/upload_images/790890-dc019a466284f7e8.gif?imageMogr2/auto-orient/strip)
+
+---
+
+#### 脚本源码：
+```
 # coding=utf-8
 import os
 import re
@@ -235,3 +309,13 @@ if __name__ == '__main__':
         manager.generate_analysis()
         manager.open_report()
         print "已经生成报告：" + manager.report_file
+```
+
+---
+
+####  注意
+* 通过plutil 命令和脚本，大部分多语言错误都能定位，小部分特别的错误，还需手动查看。
+
+#### 脚本 Git 地址
+* https://github.com/bigsen/check_localizable.git
+
