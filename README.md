@@ -1,3 +1,5 @@
+![](https://upload-images.jianshu.io/upload_images/790890-8bef563f8f500b28.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ## 目录
 * 背景
 * 如何详细定位多语言错误信息
@@ -32,7 +34,10 @@
 
 * 但是可以体会到，这样还是会有一些缺点，不方便，你需要手动去指定所有多语言文件，去检测。下面来说一下，如何全自动定位多语言文件错误信息。
 
+---
+
  #### 三、全自动定位多语言错误信息
+* ![](https://upload-images.jianshu.io/upload_images/790890-637b7a6cd0d62291.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 #### 使用方法：
 （1）放在项目中，直接执行python脚本。
 （2）脚本支持参数，第一个参数为搜索路径，第二个参数为输出日志路径（当有参数时，非必传）。
@@ -60,9 +65,7 @@ python check_localizable.py /Users/sen/Desktop/项目 /Users/sen/Desktop/duoyuy
 * 模拟多语言为错误格式 ----> 运行脚本校验多语言 -----> 生成报告 ----> 修复多语言格式 
 * ![](https://upload-images.jianshu.io/upload_images/790890-dc019a466284f7e8.gif?imageMogr2/auto-orient/strip)
 
-#### 脚本流程
-* ![](https://upload-images.jianshu.io/upload_images/790890-637b7a6cd0d62291.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
+---
 
 #### 脚本源码：
 ```
@@ -304,5 +307,12 @@ if __name__ == '__main__':
         manager.open_report()
         print "已经生成报告：" + manager.report_file
 ```
+
+---
+
 ####  注意
 * 通过plutil 命令和脚本，大部分多语言错误都能定位，小部分特别的错误，还需手动查看。
+
+#### 脚本 Git 地址
+* https://github.com/bigsen/check_localizable.git
+
